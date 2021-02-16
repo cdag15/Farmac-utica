@@ -128,10 +128,37 @@ namespace Farmacéutica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+
+
+
             Estados estados = db.Estados.Find(id);
             db.Estados.Remove(estados);
-            db.SaveChanges();
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                   ex.InnerException.InnerException != null &&
+                   ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "El registro no puede borrarse porque tiene otros registros relacionados.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+
+                return View(estados);
+            }
+
+
             return RedirectToAction("Index");
+
         }
 
         protected override void Dispose(bool disposing)
