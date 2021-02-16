@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Farmacéutica.Models.Estados>
+
+@{
+    ViewBag.Title = "Estados";
+}
+
+<h2>Estados</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID_Estado }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.ID_Estado }) |*@
+            @Html.ActionLink("Borrar", "Delete", new { id=item.ID_Estado })
+        </td>
+    </tr>
+}
+
+</table>
